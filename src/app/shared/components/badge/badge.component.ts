@@ -1,0 +1,64 @@
+import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+@Component({
+  selector: 'app-badge',
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <span class="badge" [ngClass]="variant">
+      <span *ngIf="dot" class="dot"></span>
+      <ng-content></ng-content>
+    </span>
+  `,
+  styles: [`
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      padding: 0.25rem 0.625rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+
+    .primary {
+      background: var(--color-surfaceHover);
+      color: var(--color-primary);
+      border: 1px solid var(--color-border);
+      .dot { background: var(--color-primary); }
+    }
+
+    .success {
+      background: var(--color-successBg);
+      color: var(--color-success);
+      border: 1px solid rgba(0, 229, 160, 0.2);
+      .dot { background: var(--color-success); }
+    }
+
+    .warning {
+      background: var(--color-warningBg);
+      color: var(--color-warning);
+      border: 1px solid rgba(255, 184, 0, 0.2);
+      .dot { background: var(--color-warning); }
+    }
+
+    .danger {
+      background: var(--color-dangerBg);
+      color: var(--color-danger);
+      border: 1px solid rgba(255, 75, 107, 0.2);
+      .dot { background: var(--color-danger); }
+    }
+  `]
+})
+export class BadgeComponent {
+  @Input() variant: 'primary' | 'success' | 'warning' | 'danger' = 'primary';
+  @Input() dot = false;
+}
