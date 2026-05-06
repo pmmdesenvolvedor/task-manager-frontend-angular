@@ -114,21 +114,34 @@ export class DashboardComponent implements OnInit {
         this.completedTasks = tasks.filter(t => t.done).length;
         this.completionRate = this.totalTasks > 0 ? Math.round((this.completedTasks / this.totalTasks) * 100) : 0;
 
-        // Mock chart data
-        this.chartData = [
-          { name: 'Seg', tarefas: 2 },
-          { name: 'Ter', tarefas: 5 },
-          { name: 'Qua', tarefas: 3 },
-          { name: 'Qui', tarefas: 7 },
-          { name: 'Sex', tarefas: 4 },
-          { name: 'Sáb', tarefas: 1 },
-          { name: 'Dom', tarefas: 0 }
-        ];
+        // Dados reais para o gráfico (Tarefas concluídas nos últimos 7 dias)
+        const days = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+        const last7Days = Array.from({ length: 7 }, (_, i) => {
+          const d = new Date();
+          d.setDate(d.getDate() - (6 - i));
+          return {
+            dateStr: d.toISOString().split('T')[0],
+            name: days[d.getDay()],
+            tarefas: 0
+          };
+        });
 
-        // Mock recent activity based on tasks
+        tasks.forEach(t => {
+          if (t.done && t.createdAt) {
+             const taskDateStr = new Date(t.createdAt).toISOString().split('T')[0];
+             const dayObj = last7Days.find(d => d.dateStr === taskDateStr);
+             if (dayObj) {
+               dayObj.tarefas++;
+             }
+          }
+        });
+
+        this.chartData = last7Days.map(d => ({ name: d.name, tarefas: d.tarefas }));
+
+        // Atividade recente baseada nas tarefas reais
         this.recentActivity = tasks.slice(0, 4).map(t => ({
-          description: t.done ? `Você completou "${t.title}"` : `Criou "${t.title}"`,
-          time: new Date(t.updatedAt).toLocaleDateString(),
+          description: t.done ? `Tarefa concluída: "${t.title}"` : `Tarefa criada: "${t.title}"`,
+          time: t.createdAt ? new Date(t.createdAt).toLocaleDateString() : 'Data desconhecida',
           type: t.done ? 'complete' : 'create'
         }));
 
