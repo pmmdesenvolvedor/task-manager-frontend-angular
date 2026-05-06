@@ -7,11 +7,7 @@ import { ThemeService } from './core/services/theme.service';
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, ToastComponent],
-  template: `
-    <router-outlet></router-outlet>
-    <app-toast></app-toast>
-  `
-})
+  templateUrl: './app.component.html'})
 export class AppComponent {
   // Inject to initialize theme on load
   private themeService = inject(ThemeService);

@@ -1,0 +1,66 @@
+<div class="dashboard-grid" *ngIf="!isLoading; else loadingState">
+      
+      <div class="stats-grid">
+        <app-stats-card 
+          title="Total de Tarefas" 
+          [value]="totalTasks" 
+          subtitle="No seu workspace" 
+          type="primary"
+          [active]="true"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+        </app-stats-card>
+
+        <app-stats-card 
+          title="Concluídas" 
+          [value]="completedTasks" 
+          subtitle="Tarefas finalizadas" 
+          type="success"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        </app-stats-card>
+
+        <app-stats-card 
+          title="Pendentes" 
+          [value]="pendingTasks" 
+          subtitle="Aguardando conclusão" 
+          type="warning"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+        </app-stats-card>
+
+        <app-stats-card 
+          title="Taxa de Conclusão" 
+          [value]="completionRate + '%'" 
+          subtitle="Das tarefas totais" 
+          type="info"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+        </app-stats-card>
+      </div>
+
+      <div class="charts-grid">
+        <app-tasks-bar-chart [pending]="pendingTasks" [completed]="completedTasks"></app-tasks-bar-chart>
+        <app-tasks-line-chart [data]="chartData"></app-tasks-line-chart>
+      </div>
+
+      <div class="activity-section">
+        <app-recent-activity [activities]="recentActivity"></app-recent-activity>
+      </div>
+
+    </div>
+
+    <ng-template #loadingState>
+      <div class="dashboard-grid">
+        <div class="stats-grid">
+          <app-skeleton height="140px" borderRadius="1rem" *ngFor="let i of [1,2,3,4]"></app-skeleton>
+        </div>
+        <div class="charts-grid">
+          <app-skeleton height="350px" borderRadius="1rem"></app-skeleton>
+          <app-skeleton height="350px" borderRadius="1rem"></app-skeleton>
+        </div>
+        <div class="activity-section">
+          <app-skeleton height="300px" borderRadius="1rem"></app-skeleton>
+        </div>
+      </div>
+    </ng-template>

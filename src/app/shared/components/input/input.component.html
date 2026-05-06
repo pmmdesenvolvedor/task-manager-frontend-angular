@@ -1,0 +1,31 @@
+<div class="input-wrapper" [class.has-error]="error">
+      <label *ngIf="label" [for]="id">{{ label }}</label>
+      <div class="input-container">
+        <span class="icon-left" *ngIf="hasIcon">
+          <ng-content select="[icon]"></ng-content>
+        </span>
+        <input
+          *ngIf="type !== 'textarea'"
+          [type]="type"
+          [id]="id"
+          [placeholder]="placeholder"
+          [disabled]="disabled"
+          [value]="value"
+          (input)="onInputChange($event)"
+          (blur)="onTouched()"
+          [class.with-icon]="hasIcon"
+        />
+        <textarea
+          *ngIf="type === 'textarea'"
+          [id]="id"
+          [placeholder]="placeholder"
+          [disabled]="disabled"
+          [value]="value"
+          (input)="onInputChange($event)"
+          (blur)="onTouched()"
+          [class.with-icon]="hasIcon"
+          rows="4"
+        ></textarea>
+      </div>
+      <span class="error-msg" *ngIf="error">{{ error }}</span>
+    </div>

@@ -3,15 +3,14 @@ import { CommonModule } from '@angular/common';
 import Chart from 'chart.js/auto';
 
 @Component({
-  selector: 'app-tasks-bar-chart',
+  selector: 'app-tasks-line-chart',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './tasks-bar-chart.component.html',
-  styleUrl: './tasks-bar-chart.component.scss'})
-export class TasksBarChartComponent implements AfterViewInit, OnChanges {
+  templateUrl: './tasks-line-chart.component.html',
+  styleUrl: './tasks-line-chart.component.scss'})
+export class TasksLineChartComponent implements AfterViewInit, OnChanges {
   @ViewChild('chartCanvas') chartCanvas!: ElementRef;
-  @Input() pending = 0;
-  @Input() completed = 0;
+  @Input() data: { name: string; tarefas: number }[] = [];
   
   private chart: Chart | null = null;
 
@@ -30,18 +29,29 @@ export class TasksBarChartComponent implements AfterViewInit, OnChanges {
 
     const ctx = this.chartCanvas.nativeElement.getContext('2d');
     
-    const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--color-primary').trim() || '#6C63FF';
-    const successColor = getComputedStyle(document.documentElement).getPropertyValue('--color-success').trim() || '#00e5a0';
+    const infoColor = getComputedStyle(document.documentElement).getPropertyValue('--color-info').trim() || '#00c2ff';
+    
+    // Create gradient
+    const gradient = ctx.createLinearGradient(0, 0, 0, 300);
+    gradient.addColorStop(0, 'rgba(0, 194, 255, 0.5)');
+    gradient.addColorStop(1, 'rgba(0, 194, 255, 0)');
     
     this.chart = new Chart(ctx, {
-      type: 'bar',
+      type: 'line',
       data: {
-        labels: ['Pendentes', 'Concluídas'],
+        labels: this.data.map(d => d.name),
         datasets: [{
-          data: [this.pending, this.completed],
-          backgroundColor: [primaryColor, successColor],
-          borderRadius: 4,
-          barPercentage: 0.3
+          data: this.data.map(d => d.tarefas),
+          borderColor: infoColor,
+          backgroundColor: gradient,
+          borderWidth: 2,
+          pointBackgroundColor: infoColor,
+          pointBorderColor: '#fff',
+          pointBorderWidth: 2,
+          pointRadius: 4,
+          pointHoverRadius: 6,
+          fill: true,
+          tension: 0.4
         }]
       },
       options: {
@@ -60,7 +70,8 @@ export class TasksBarChartComponent implements AfterViewInit, OnChanges {
 
   private updateChart() {
     if (!this.chart) return;
-    this.chart.data.datasets[0].data = [this.pending, this.completed];
+    this.chart.data.labels = this.data.map(d => d.name);
+    this.chart.data.datasets[0].data = this.data.map(d => d.tarefas);
     this.chart.update();
   }
 }

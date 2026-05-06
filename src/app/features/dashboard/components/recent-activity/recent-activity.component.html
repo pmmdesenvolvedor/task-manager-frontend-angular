@@ -1,0 +1,21 @@
+<div class="activity-card">
+      <div class="header">
+        <h3>Atividade Recente</h3>
+        <p>Últimas tarefas criadas ou atualizadas</p>
+      </div>
+      <div class="activity-list">
+        <div class="activity-item" *ngFor="let item of activities">
+          <div class="icon-wrapper" [ngClass]="item.type">
+            <svg *ngIf="item.type === 'complete'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <svg *ngIf="item.type === 'create'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle></svg>
+          </div>
+          <div class="activity-content">
+            <p class="desc">{{ item.description }}</p>
+            <p class="time">há {{ item.time }}</p>
+          </div>
+          <app-badge [variant]="item.type === 'complete' ? 'success' : 'primary'" [dot]="true">
+            {{ item.type === 'complete' ? 'Concluída' : 'Pendente' }}
+          </app-badge>
+        </div>
+      </div>
+    </div>
