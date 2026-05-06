@@ -20,14 +20,15 @@
 }
 
 .logo-icon {
-  width: 32px;
-  height: 32px;
-  border-radius: 0.5rem;
-  background: var(--color-info);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 0.625rem;
+    background: var(--gradient-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-glow);
+    color: #fff;
 }
 
 .logo-text {

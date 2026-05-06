@@ -6,7 +6,8 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './task-filters.component.html',
-  styleUrl: './task-filters.component.scss'})
+  styleUrl: './task-filters.component.scss'
+})
 export class TaskFiltersComponent {
   @Input() search = '';
   @Input() status = 'all';
@@ -30,16 +31,15 @@ export class TaskFiltersComponent {
     }, 500);
   }
 
-  onStatusChange(event: Event) {
-    this.statusChange.emit((event.target as HTMLSelectElement).value);
+  onStatusChange(val: string) {
+    this.statusChange.emit(val);
   }
 
-  onSortByChange(event: Event) {
-    this.sortByChange.emit((event.target as HTMLSelectElement).value);
-  }
-
-  onOrderToggle() {
-    this.orderChange.emit(this.order === 'desc' ? 'asc' : 'desc');
+  onCombinedSortChange(event: Event) {
+    const val = (event.target as HTMLSelectElement).value;
+    const [sort, order] = val.split('-');
+    this.sortByChange.emit(sort);
+    this.orderChange.emit(order);
   }
 
   onViewModeChange(mode: string) {

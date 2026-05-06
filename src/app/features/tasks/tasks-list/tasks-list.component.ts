@@ -104,4 +104,27 @@ export class TasksListComponent implements OnInit {
       });
     }
   }
+
+  toggleTask(event: {id: string, done: boolean}) {
+    // Optimistic update
+    const taskIndex = this.tasks.findIndex(t => t.id === event.id);
+    if (taskIndex > -1) {
+      const originalDone = this.tasks[taskIndex].done;
+      this.tasks[taskIndex].done = event.done;
+      
+      this.taskService.updateTask(event.id, { done: event.done }).subscribe({
+        next: () => {
+          // If filtering by status, reload the list to reflect accurate state
+          if (this.statusFilter !== 'all') {
+            this.loadTasks();
+          }
+        },
+        error: () => {
+          // Revert optimistic update
+          this.tasks[taskIndex].done = originalDone;
+          this.toastService.show('Erro ao atualizar tarefa.', 'error');
+        }
+      });
+    }
+  }
 }

@@ -1,72 +1,122 @@
-.table-container {
-      width: 100%;
-      overflow-x: auto;
-      background: var(--color-surface);
-      border: 1px solid var(--color-border);
-      border-radius: 1rem;
-    }
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radii-xl);
+  box-shadow: var(--shadow-sm);
+}
 
-    .task-table {
-      width: 100%;
-      border-collapse: collapse;
-      text-align: left;
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
 
-      th, td {
-        padding: 1rem 1.5rem;
-        border-bottom: 1px solid var(--color-borderLight);
-        font-size: 0.875rem;
-        white-space: nowrap;
-      }
+thead {
+  background: var(--color-surfaceHover);
+  border-bottom: 1px solid var(--color-border);
 
-      th {
-        font-weight: 600;
-        color: var(--color-textSecondary);
-        background: var(--color-surfaceElevated);
-      }
+  th {
+    padding: 1rem 1.25rem;
+    font-size: var(--font-size-xs);
+    font-weight: 500;
+    color: var(--color-textSecondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
 
-      tbody tr {
-        transition: all 0.2s ease;
-        cursor: pointer;
+    &.text-right { text-align: right; }
+  }
+}
 
-        &:hover {
-          background: var(--color-surfaceHover);
-        }
+tbody tr {
+  border-bottom: 1px solid var(--color-border);
+  transition: background var(--transition-fast);
 
-        &:last-child td { border-bottom: none; }
-      }
+  &:last-child { border-bottom: none; }
+  &:hover { background: var(--color-surfaceElevated); }
+}
 
-      .actions-th { text-align: right; }
-      .actions-cell { text-align: right; }
-    }
+td {
+  padding: 1rem 1.25rem;
+  vertical-align: middle;
+  font-size: var(--font-size-sm);
+}
 
-    .font-medium { font-weight: 500; color: var(--color-text); }
-    .text-muted { color: var(--color-textMuted); }
-    
-    .truncate {
-      max-width: 300px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+.checkbox {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--color-borderLight);
+  background: transparent;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all var(--transition-base);
+  cursor: pointer;
 
-    .action-btn {
-      padding: 0.375rem;
-      border-radius: 0.375rem;
-      transition: all 0.2s;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+  &:hover {
+    border-color: var(--color-success);
+    transform: scale(1.1);
+  }
 
-      &:hover {
-        background: var(--color-dangerBg);
-        color: var(--color-danger);
-      }
+  &.done {
+    border-color: var(--color-success);
+    background: var(--color-success);
+  }
+}
 
-      &.text-danger { color: var(--color-textMuted); }
-      &:hover.text-danger { color: var(--color-danger); }
-    }
+.task-title {
+  font-weight: 500;
+  color: var(--color-text);
+  text-decoration: none;
+  transition: all var(--transition-fast);
 
-    .empty-state {
-      text-align: center;
-      padding: 3rem !important;
-      color: var(--color-textMuted);
-    }
+  &:hover { color: var(--color-primary); }
+
+  &.done {
+    color: var(--color-textMuted);
+    text-decoration: line-through;
+  }
+}
+
+.task-description {
+  color: var(--color-textMuted);
+  font-size: var(--font-size-xs);
+  margin-top: 0.25rem;
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.date-cell {
+  color: var(--color-textMuted);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.25rem;
+}
+
+// Ghost button with danger color override
+:host ::ng-deep .btn-danger-ghost .ghost {
+  color: var(--color-danger);
+
+  &:hover {
+    background: var(--color-dangerBg);
+    color: var(--color-danger);
+  }
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem !important;
+  color: var(--color-textMuted);
+}
+

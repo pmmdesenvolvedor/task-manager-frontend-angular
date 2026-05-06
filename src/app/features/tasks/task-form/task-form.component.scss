@@ -1,98 +1,130 @@
 .form-wrapper {
-      max-width: 600px;
-      margin: 0 auto;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin: 0;
+  }
+}
+
+.back-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radii-lg);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-textSecondary);
+  cursor: pointer;
+  transition: var(--transition-base);
+
+  &:hover {
+    background: var(--color-surfaceHover);
+    color: var(--color-text);
+  }
+}
+
+.form-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radii-xl);
+  padding: 2.5rem;
+  box-shadow: var(--shadow-md);
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+}
+
+// Toggle row (checkbox "marcar como concluída")
+.toggle-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radii-md);
+}
+
+.toggle-input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--color-success);
+  cursor: pointer;
+}
+
+.toggle-label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+// Legacy custom checkbox (kept for backward compat)
+.checkbox-wrapper {
+  margin-top: 0.5rem;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  cursor: pointer;
+
+  input {
+    display: none;
+
+    &:checked + .custom-checkbox {
+      background: var(--color-success);
+      border-color: var(--color-success);
+
+      svg { opacity: 1; transform: scale(1); }
     }
+  }
+}
 
-    .header {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 2rem;
+.custom-checkbox {
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radii-sm);
+  border: 2px solid var(--color-borderLight);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-base);
+  background: var(--color-bg);
 
-      h2 {
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: var(--color-text);
-        margin: 0;
-      }
-    }
+  svg {
+    color: white;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: var(--transition-base);
+  }
+}
 
-    .back-btn {
-      width: 40px; height: 40px;
-      border-radius: 0.75rem;
-      background: var(--color-surface);
-      border: 1px solid var(--color-border);
-      display: flex; align-items: center; justify-content: center;
-      color: var(--color-textSecondary);
-      cursor: pointer;
-      transition: all 0.2s;
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-borderLight);
+}
 
-      &:hover {
-        background: var(--color-surfaceHover);
-        color: var(--color-text);
-      }
-    }
-
-    .form-card {
-      background: var(--color-surface);
-      border: 1px solid var(--color-border);
-      border-radius: 1.5rem;
-      padding: 2.5rem;
-      box-shadow: var(--shadow-md);
-
-      form {
-        display: flex;
-        flex-direction: column;
-        gap: 1.5rem;
-      }
-    }
-
-    .checkbox-wrapper {
-      margin-top: 0.5rem;
-    }
-
-    .checkbox-label {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      color: var(--color-text);
-      font-size: 0.875rem;
-      font-weight: 500;
-      cursor: pointer;
-
-      input {
-        display: none;
-
-        &:checked + .custom-checkbox {
-          background: var(--color-success);
-          border-color: var(--color-success);
-          
-          svg { opacity: 1; transform: scale(1); }
-        }
-      }
-    }
-
-    .custom-checkbox {
-      width: 20px; height: 20px;
-      border-radius: 0.375rem;
-      border: 2px solid var(--color-borderLight);
-      display: flex; align-items: center; justify-content: center;
-      transition: all 0.2s;
-      background: var(--color-bg);
-
-      svg {
-        color: white;
-        opacity: 0;
-        transform: scale(0.5);
-        transition: all 0.2s;
-      }
-    }
-
-    .actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 1rem;
-      margin-top: 1rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid var(--color-borderLight);
-    }

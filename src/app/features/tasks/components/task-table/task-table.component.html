@@ -1,33 +1,62 @@
-<div class="table-container">
-      <table class="task-table">
-        <thead>
-          <tr>
-            <th>Status</th>
-            <th>Título</th>
-            <th>Descrição</th>
-            <th>Criado em</th>
-            <th class="actions-th">Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let task of tasks" (click)="onEdit.emit(task)">
-            <td>
-              <app-badge [variant]="task.done ? 'success' : 'warning'" [dot]="true">
-                {{ task.done ? 'Concluída' : 'Pendente' }}
-              </app-badge>
-            </td>
-            <td class="font-medium">{{ task.title }}</td>
-            <td class="text-muted truncate">{{ task.description || '-' }}</td>
-            <td class="text-muted">{{ task.createdAt | date:'dd/MM/yyyy' }}</td>
-            <td class="actions-cell" (click)="$event.stopPropagation()">
-              <button class="action-btn text-danger" (click)="onDelete.emit(task.id)">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-              </button>
-            </td>
-          </tr>
-          <tr *ngIf="tasks.length === 0">
-            <td colspan="5" class="empty-state">Nenhuma tarefa encontrada.</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+<div class="table-wrapper">
+  <table class="styled-table">
+    <thead>
+      <tr>
+        <th style="width:40px"></th>
+        <th>Tarefa</th>
+        <th>Status</th>
+        <th>Criada em</th>
+        <th class="text-right">Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let task of tasks">
+        <td>
+          <button
+            class="checkbox"
+            [class.done]="task.done"
+            (click)="onToggle.emit({id: task.id, done: !task.done})"
+            [disabled]="isToggling"
+            [attr.aria-label]="task.done ? 'Marcar como pendente' : 'Marcar como concluída'"
+          >
+            <svg *ngIf="task.done" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </button>
+        </td>
+        <td>
+          <a class="task-title" [class.done]="task.done" (click)="onEdit.emit(task); $event.preventDefault()" href="#" [title]="task.title">
+            {{ task.title }}
+          </a>
+          <div class="task-description">{{ task.description }}</div>
+        </td>
+        <td>
+          <app-badge [variant]="task.done ? 'success' : 'primary'" [dot]="true">
+            {{ task.done ? 'Concluída' : 'Pendente' }}
+          </app-badge>
+        </td>
+        <td class="date-cell">{{ task.createdAt | date:'dd/MM/yyyy' }}</td>
+        <td>
+          <div class="actions">
+            <app-button variant="ghost" size="sm" (onClick)="onEdit.emit(task)" aria-label="Editar">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
+                <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
+              </svg>
+            </app-button>
+            <app-button variant="ghost" size="sm" (onClick)="onDelete.emit(task.id)" [loading]="isDeleting" aria-label="Excluir" class="btn-danger-ghost">
+              <svg *ngIf="!isDeleting" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="3 6 5 6 21 6" />
+                <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6" />
+                <path d="M10 11v6M14 11v6" />
+              </svg>
+            </app-button>
+          </div>
+        </td>
+      </tr>
+      <tr *ngIf="tasks.length === 0">
+        <td colspan="5" class="empty-state">Nenhuma tarefa encontrada.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
