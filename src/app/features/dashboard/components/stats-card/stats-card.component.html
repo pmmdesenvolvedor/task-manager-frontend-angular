@@ -1,15 +1,13 @@
-<div class="card" [ngClass]="{ 'active-glow': active }">
-      <div class="header">
-        <div class="header-text">
-          <h3 class="title">{{ title }}</h3>
-          <p class="description" *ngIf="description">{{ description }}</p>
-        </div>
-        <span class="icon-wrapper" [ngClass]="type">
-          <ng-content></ng-content>
-        </span>
-      </div>
-      <div class="content">
-        <p class="value">{{ value }}</p>
-        <p class="subtitle" *ngIf="subtitle">{{ subtitle }}</p>
-      </div>
+<div class="card" [ngClass]="'color-' + type">
+  <div class="top-section">
+    <div>
+      <p class="title">{{ title }}</p>
+      <p class="value" [ngClass]="'text-' + type">{{ value }}</p>
+      <p class="subtitle" *ngIf="subtitle">{{ subtitle }}</p>
     </div>
+    <div class="icon-bubble" [ngClass]="'bg-' + type">
+      <ng-content></ng-content>
+    </div>
+  </div>
+  <p class="description" *ngIf="description">{{ description }}</p>
+</div>
