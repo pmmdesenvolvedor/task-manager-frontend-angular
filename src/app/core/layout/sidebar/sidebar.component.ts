@@ -8,13 +8,14 @@ import { AuthService } from '../../services/auth.service';
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.scss'})
+  styleUrl: './sidebar.component.scss',
+})
 export class SidebarComponent {
   private authService = inject(AuthService);
 
   get userInitials() {
     const email = this.authService.currentUser()?.email || 'U';
-    return email.substring(0, 2).toUpperCase();
+    return email.charAt(0).toUpperCase() ?? 'U';
   }
 
   get userEmail() {
